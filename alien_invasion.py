@@ -1,5 +1,6 @@
 import sys
 import  pygame
+from random import randint
 from settings.settings import Settings
 from Models.ship import Ship
 from Models.bullet import Bullet
@@ -101,7 +102,7 @@ class AlienInvasion:
         available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
         number_rows = available_space_y // (2 * alien_height)
         
-        self._create_fleet_type_formation(1,number_aliens_x,number_rows)
+        self._create_fleet_type_formation(3,number_aliens_x,number_rows)
 
     def _create_fleet_type_formation(self, type,number_aliens_x_avirable, number_rows_avirable):
         if type ==1:
@@ -119,13 +120,24 @@ class AlienInvasion:
                 alien = Alien(self)
                 alien.rect.x = alien.rect.width + 2 * alien.rect.width * alien_number
                 self.aliens.add(alien)
-        #elif type ==3:
-        #    None
+        elif type ==3:
+            random_number=2
+            for row_number in range(number_rows_avirable):
+                # Create the first row of aliens.
+                for alien_number in range(number_aliens_x_avirable+1):
+                    random_number= randint(0, 1)
+                    if random_number == 1:
+                        # Create an alien and place it in the row.
+                        alien = Alien(self)
+                        alien_width, alien_height = alien.rect.size
+                        alien.rect.x = alien_width + 2 * alien_width * alien_number
+                        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+                        self.aliens.add(alien)
         #elif type ==4:
         #    None
         #elif type ==5:
         #    None
-        
+
 if __name__ == '__main__':
     gameAi = AlienInvasion()
     gameAi.run_game()
